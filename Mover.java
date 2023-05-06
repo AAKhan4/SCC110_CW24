@@ -5,12 +5,13 @@ public class Mover {
     private int[] pos = new int[2]; //position
     private double[] vel = {0,0}; //velocity
     private double[] acc = {0.0}; //acceleration
-    private double frictCoef; //Coefficient of dynamic friction
+    private double frictCoef; //Coefficient of
 
     //Simple constructor initial position of choice. velocity & acceleration = 0
-    public Mover(int x, int y) {
+    public Mover(int x, int y, double frictCoef) {
         pos[0] = x;
         pos[1] = y;
+        this.frictCoef = frictCoef;
     }
 
     //Sets of simple Getters and Mutators
