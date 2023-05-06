@@ -5,6 +5,7 @@ public class Mover {
     private int[] pos = new int[2]; //position
     private double[] vel = {0,0}; //velocity
     private double[] acc = {0.0}; //acceleration
+    private double frictCoef; //Coefficient of dynamic friction
 
     //Simple constructor initial position of choice. velocity & acceleration = 0
     public Mover(int x, int y) {
@@ -47,9 +48,8 @@ public class Mover {
     }
 
     //Following function adds appropriate acceleration to emulate friction on the object while moving
-    //@param = frictCoef - coefficient of friction
     //Uses equations - F=ma; F(friction) = frictCoef * F(Normal)
-    public void dynamicFriction(double frictCoef) {
+    public void dynamicFriction() {
         double fricAcceleration = (9.81*frictCoef);
         double directFric = (getDirection()+Math.PI);
         acc[0] += fricAcceleration*Math.cos(directFric); //Adding friction to x-component of acceleration
