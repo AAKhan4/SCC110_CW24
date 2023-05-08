@@ -65,8 +65,14 @@ public class Mover {
     }
 
     public char touchingEdge() { //Values here for table boundaries are not set
-        if ((pos[0]+radius) == 0 || (pos[0]+radius) == 300) return 'v'; //'v' for vertical boundary touched
-        if ((pos[0]+radius) == 0 || (pos[0]+radius) == 300) return 'h'; //'h' for horizontal boundary touched
+        if ((pos[0]-radius) <= 0 || (pos[0]+radius) >= 300) {
+            pos[0] = ((pos[0]-radius)<=0)? 0:300;
+            return 'v'; //'v' for vertical boundary touched
+        }
+        if ((pos[1]-radius) <= 0 || (pos[1]+radius) >= 300) {
+            pos[1] = ((pos[1]-radius)<=0)? 0:300;
+            return 'h'; //'h' for horizontal boundary touched
+        }
         return 'n'; //'n' for no boundary touched
     }
 }
