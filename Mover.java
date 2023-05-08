@@ -5,13 +5,15 @@ public class Mover {
     private int[] pos = new int[2]; //position
     private double[] vel = {0,0}; //velocity
     private double[] acc = {0.0}; //acceleration
-    private double frictCoef; //Coefficient of
+    private double frictCoef; //Coefficient of friction
+    private int radius;
 
     //Simple constructor initial position of choice. velocity & acceleration = 0
-    public Mover(int x, int y, double frictCoef) {
+    public Mover(int x, int y, double frictCoef, int radius) {
         pos[0] = x;
         pos[1] = y;
         this.frictCoef = frictCoef;
+        this.radius = radius;
     }
 
     //Sets of simple Getters and Mutators
@@ -28,9 +30,14 @@ public class Mover {
         return Arrays.copyOf(vel, vel.length);
     }
 
-    public void setVel(double x, double y) {
+    public void setVel(double x, double y) { //individual values inserting
         vel[0] = x;
         vel[1] = y;
+    }
+
+    public void setVel(double[] vel) { //values inserted together in array
+        this.vel[0] = vel[0];
+        this.vel[1] = vel[1];
     }
 
     public double[] getAcc() {
