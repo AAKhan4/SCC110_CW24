@@ -63,4 +63,10 @@ public class Mover {
         acc[0] += fricAcceleration*Math.cos(directFric); //Adding friction to x-component of acceleration
         acc[1] += fricAcceleration*Math.sin(directFric); //Adding friction to y-component of acceleration
     }
+
+    public char touchingEdge() { //Values here for table boundaries are not set
+        if ((pos[0]+radius) == 0 || (pos[0]+radius) == 300) return 'v'; //'v' for vertical boundary touched
+        if ((pos[0]+radius) == 0 || (pos[0]+radius) == 300) return 'h'; //'h' for horizontal boundary touched
+        return 'n'; //'n' for no boundary touched
+    }
 }
