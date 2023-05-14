@@ -2,14 +2,14 @@ import java.util.Arrays;
 
 public class Mover {
     //Array of 2 values for x & y axes
-    private int[] pos = new int[2]; //position
+    private double[] pos = new double[2]; //position
     private double[] vel = {0,0}; //velocity
     private double[] acc = {0.0}; //acceleration
     private double frictCoef; //Coefficient of friction
     private int radius;
 
     //Simple constructor initial position of choice. velocity & acceleration = 0
-    public Mover(int x, int y, double frictCoef, int radius) {
+    public Mover(double x, double y, double frictCoef, int radius) {
         pos[0] = x;
         pos[1] = y;
         this.frictCoef = frictCoef;
@@ -17,11 +17,19 @@ public class Mover {
     }
 
     //Sets of simple Getters and Mutators
-    public int[] getPos() {
+    public double[] getPos() {
         return Arrays.copyOf(pos, pos.length);
     }
 
-    public void setPos(int x, int y) {
+    public double getXPos() {
+        return pos[0];
+    }
+
+    public double getYPos() {
+        return pos[1];
+    }
+
+    public void setPos(double x, double y) {
         pos[0] = x;
         pos[1] = y;
     }
