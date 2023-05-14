@@ -2,40 +2,52 @@ import java.util.Arrays;
 
 public class Mover {
     //Array of 2 values for x & y axes
-    private double[] pos = new double[2]; //position
+    private Ball token;
     private double[] vel = {0,0}; //velocity
-    private double[] acc = {0.0}; //acceleration
+    private double[] acc = {0,0}; //acceleration
     private double frictCoef; //Coefficient of friction
     private int radius;
 
     //Simple constructor initial position of choice. velocity & acceleration = 0
     public Mover(double x, double y, double frictCoef, int radius) {
-        pos[0] = x;
-        pos[1] = y;
+        this.token = new Ball(x, y, (2*radius), null, 1);
         this.frictCoef = frictCoef;
         this.radius = radius;
     }
 
     //Sets of simple Getters and Mutators
-    public double[] getPos() {
-        return Arrays.copyOf(pos, pos.length);
-    }
 
     public double getXPos() {
-        return pos[0];
+        return token.getXPosition();
     }
 
     public double getYPos() {
-        return pos[1];
+        return token.getYPosition();
+    }
+
+    public void setXPos(double x) {
+        token.setXPosition(x);
+    }
+
+    public void setYPos(double y) {
+        token.setYPosition(y);
     }
 
     public void setPos(double x, double y) {
-        pos[0] = x;
-        pos[1] = y;
+        token.setXPosition(x);
+        token.setYPosition(y);
     }
 
     public double[] getVel() {
         return Arrays.copyOf(vel, vel.length);
+    }
+
+    public void setXVel(double x) {
+        vel[0] = x;
+    }
+
+    public void setYVel(double y) {
+        vel[0] = y;
     }
 
     public void setVel(double x, double y) { //individual values inserting
@@ -50,6 +62,14 @@ public class Mover {
 
     public double[] getAcc() {
         return Arrays.copyOf(acc, acc.length);
+    }
+
+    public void setXAcc(double x) {
+        acc[0] = x;
+    }
+
+    public void setYAcc(double y) {
+        acc[1] = y;
     }
 
     public void setAcc(double x, double y) {
@@ -73,12 +93,12 @@ public class Mover {
     }
 
     public char touchingEdge() { //Values here for table boundaries are not set
-        if ((pos[0]-radius) <= 0 || (pos[0]+radius) >= 300) {
-            pos[0] = ((pos[0]-radius)<=0)? 0:300;
+        if ((getXPos()-radius) <= 190 || (getXPos()+radius) >= 845) {
+            setXPos(((getXPos()-radius)<=190)? (190+radius):(845-radius)); //In case mover runs out of table this moves it back to boundary
             return 'v'; //'v' for vertical boundary touched
         }
-        if ((pos[1]-radius) <= 0 || (pos[1]+radius) >= 300) {
-            pos[1] = ((pos[1]-radius)<=0)? 0:300;
+        if ((getYPos()-radius) <= 160 || (getYPos()+radius) >= 515) {
+            setYPos(((getYPos()-radius)<=160)? (160+radius):(515-radius));
             return 'h'; //'h' for horizontal boundary touched
         }
         return 'n'; //'n' for no boundary touched
