@@ -1,8 +1,9 @@
 public class Puck extends Mover{
     private boolean goal = false;
 
-    public Puck(int x, int y) {
-        super(x, y, 0.0103, 5);
+    public Puck(int x, int y, GameArena arena) {
+        super(x, y, 0.0103, 10, arena);
+        setTokenColour("BLACK");
     }
 
     public void bounce() {

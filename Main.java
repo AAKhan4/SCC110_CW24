@@ -2,6 +2,10 @@ public class Main {
     public static void main(String[] args) {
         GameArena arena = new GameArena(1050, 600);
         innitAirHockey(arena);
+
+        Puck puck = new Puck(518, 338, arena);
+        Mallet player1 = new Mallet(304, 338, arena);
+        Mallet player2 = new Mallet(732, 338, arena);
     }
 
     private static void innitAirHockey(GameArena arena) {

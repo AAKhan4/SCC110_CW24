@@ -9,10 +9,12 @@ public class Mover {
     private int radius;
 
     //Simple constructor initial position of choice. velocity & acceleration = 0
-    public Mover(double x, double y, double frictCoef, int radius) {
+    public Mover(double x, double y, double frictCoef, int radius, GameArena arena) {
         this.token = new Ball(x, y, (2*radius), null, 1);
         this.frictCoef = frictCoef;
         this.radius = radius;
+
+        arena.addBall(token);
     }
 
     //Sets of simple Getters and Mutators
@@ -36,6 +38,10 @@ public class Mover {
     public void setPos(double x, double y) {
         token.setXPosition(x);
         token.setYPosition(y);
+    }
+
+    public void setTokenColour(String col) {
+        token.setColour(col);
     }
 
     public double[] getVel() {

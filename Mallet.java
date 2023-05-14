@@ -1,7 +1,8 @@
 public class Mallet extends Mover{
 
-    public Mallet(int x, int y) {
-        super(x, y, 0.0103, 10); //check the friction coefficient for mallets properly!
+    public Mallet(int x, int y, GameArena arena) {
+        super(x, y, 0.0103, 25, arena); //check the friction coefficient for mallets properly!
+        setTokenColour("BLUE");
     }
 
     public void boundaryHit() {
