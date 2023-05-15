@@ -514,6 +514,7 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 	 */
 	public boolean letterPressed(char key)
 	{
+		System.out.print("");
 		if (Character.isLetter(key))
 			if(isAsciiAZ((int) Character.toUpperCase(key)))
 				return alphasPressed[(int) Character.toUpperCase(key) -asciiAZOffset];

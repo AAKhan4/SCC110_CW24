@@ -47,6 +47,14 @@ public class Mover {
     public double[] getVel() {
         return Arrays.copyOf(vel, vel.length);
     }
+    
+    public double getXVel() {
+        return vel[0];
+    }
+
+    public double getYVel() {
+        return vel[1];
+    }
 
     public void setXVel(double x) {
         vel[0] = x;
@@ -98,6 +106,13 @@ public class Mover {
         acc[1] += fricAcceleration*Math.sin(directFric); //Adding friction to y-component of acceleration
     }
 
+    public void undoFriction() {
+        double fricAcceleration = (9.81*frictCoef);
+        double directFric = (getDirection()+Math.PI);
+        acc[0] -= fricAcceleration*Math.cos(directFric); //Removing friction to x-component of acceleration
+        acc[1] -= fricAcceleration*Math.sin(directFric); //Removing friction to y-component of acceleration
+    }
+
     public char touchingEdge() { //Values here for table boundaries are not set
         if ((getXPos()-radius) <= 190 || (getXPos()+radius) >= 845) {
             setXPos(((getXPos()-radius)<=190)? (190+radius):(845-radius)); //In case mover runs out of table this moves it back to boundary
@@ -108,5 +123,11 @@ public class Mover {
             return 'h'; //'h' for horizontal boundary touched
         }
         return 'n'; //'n' for no boundary touched
+    }
+
+    public void move(GameArena arena) {
+            arena.pause();
+            setVel(vel[0]+acc[0], vel[1]+acc[1]);
+            setPos(getXPos()+vel[0], getYPos()+vel[1]);
     }
 }
