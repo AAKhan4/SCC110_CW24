@@ -14,6 +14,7 @@ public class Mallet extends Mover{
         setVel(temp);
     }
 
+    //All moves need improvement; idea: acc should be higher at start then approach 0 in a direction
     public void moveVertical(GameArena arena, boolean up, boolean down, int leftEdge, int rightEdge) {
         boundaryHit(leftEdge, rightEdge);
         setYAcc(0);
