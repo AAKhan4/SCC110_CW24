@@ -114,6 +114,11 @@ public class Mover {
     }
 
     public char touchingEdge(int leftEdge, int rightEdge) { //Values here for table boundaries are not set
+        if (((getXPos()-radius) <= leftEdge || (getXPos()+radius) >= rightEdge) && ((getYPos()-radius) <= 160 || (getYPos()+radius) >= 515)) {
+            setXPos(((getXPos()-radius)<=leftEdge)? (leftEdge+radius):(rightEdge-radius));
+            setYPos(((getYPos()-radius)<=160)? (160+radius):(515-radius));
+            return 'b';
+        }
         if ((getXPos()-radius) <= leftEdge || (getXPos()+radius) >= rightEdge) {
             setXPos(((getXPos()-radius)<=leftEdge)? (leftEdge+radius):(rightEdge-radius)); //In case mover runs out of table this moves it back to boundary
             return 'v'; //'v' for vertical boundary touched

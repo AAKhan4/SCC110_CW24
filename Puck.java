@@ -8,10 +8,14 @@ public class Puck extends Mover{
 
     public void bounce(int leftEdge, int rightEdge) {
         char surface = touchingEdge(leftEdge, rightEdge);
-        if (surface!='v' && surface!='h' && surface!='n') throw new IllegalArgumentException("Surface has to be vertical 'v' or horizontal 'h'!");
+        if (surface!='v' && surface!='h' && surface!='n' && surface!='b') throw new IllegalArgumentException("Surface has to be vertical 'v' or horizontal 'h'!");
         if (surface=='n') return;
 
         double[] temp = getVel();
+        if (surface=='b') {
+            temp[0]= -(temp[0]*0.95);
+            temp[1]= -(temp[1]*0.95);
+        }
         if (surface=='v') temp[0] = -(temp[0]*0.95); //Multiplied by 0.95 to emulate real world where not all energy is conserved while bouncing
         if (surface=='h') temp[1] = -(temp[1]*0.95);
 

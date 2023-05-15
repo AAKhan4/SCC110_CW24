@@ -11,6 +11,10 @@ public class Mallet extends Mover{
         double[] temp = getVel();
         if (surface == 'v') temp[0] = 0;
         if (surface == 'h') temp[1] = 0;
+        if (surface == 'b') {
+            temp[0] = 0;
+            temp[1] = 0;
+        }
         setVel(temp);
     }
 
