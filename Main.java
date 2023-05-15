@@ -8,11 +8,8 @@ public class Main {
         Mallet player2 = new Mallet(732, 338, arena);
         puck.setXVel(2);
         while (true) {
-            player1.moveVertical(arena);
-            player1.moveHorizontal(arena);
-            player1.stopHorizontal(arena);
-            player1.stopVertical(arena);
-            player1.move(arena);
+            player1.moveKeyPress(arena, arena.letterPressed('w'), arena.letterPressed('a'), arena.letterPressed('s'), arena.letterPressed('d'), 190, 518);
+            player2.moveKeyPress(arena, arena.upPressed(), arena.leftPressed(), arena.downPressed(), arena.rightPressed(), 518, 845);
         }
     }
 

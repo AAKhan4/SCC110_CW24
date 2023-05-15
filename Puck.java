@@ -6,8 +6,8 @@ public class Puck extends Mover{
         setTokenColour("BLACK");
     }
 
-    public void bounce() {
-        char surface = touchingEdge();
+    public void bounce(int leftEdge, int rightEdge) {
+        char surface = touchingEdge(leftEdge, rightEdge);
         if (surface!='v' && surface!='h' && surface!='n') throw new IllegalArgumentException("Surface has to be vertical 'v' or horizontal 'h'!");
         if (surface=='n') return;
 

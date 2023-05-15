@@ -113,9 +113,9 @@ public class Mover {
         acc[1] -= fricAcceleration*Math.sin(directFric); //Removing friction to y-component of acceleration
     }
 
-    public char touchingEdge() { //Values here for table boundaries are not set
-        if ((getXPos()-radius) <= 190 || (getXPos()+radius) >= 845) {
-            setXPos(((getXPos()-radius)<=190)? (190+radius):(845-radius)); //In case mover runs out of table this moves it back to boundary
+    public char touchingEdge(int leftEdge, int rightEdge) { //Values here for table boundaries are not set
+        if ((getXPos()-radius) <= leftEdge || (getXPos()+radius) >= rightEdge) {
+            setXPos(((getXPos()-radius)<=leftEdge)? (leftEdge+radius):(rightEdge-radius)); //In case mover runs out of table this moves it back to boundary
             return 'v'; //'v' for vertical boundary touched
         }
         if ((getYPos()-radius) <= 160 || (getYPos()+radius) >= 515) {

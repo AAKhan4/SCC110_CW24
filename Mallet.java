@@ -5,8 +5,8 @@ public class Mallet extends Mover{
         setTokenColour("BLUE");
     }
 
-    public void boundaryHit() {
-        char surface = touchingEdge();
+    public void boundaryHit(int leftEdge, int rightEdge) {
+        char surface = touchingEdge(leftEdge, rightEdge);
         if (surface=='n') return;
         double[] temp = getVel();
         if (surface == 'v') temp[0] = 0;
@@ -14,29 +14,37 @@ public class Mallet extends Mover{
         setVel(temp);
     }
 
-    public void moveVertical(GameArena arena) {
-        boundaryHit();
+    public void moveVertical(GameArena arena, boolean up, boolean down, int leftEdge, int rightEdge) {
+        boundaryHit(leftEdge, rightEdge);
         setYAcc(0);
-        if (arena.letterPressed('w')) setYAcc(-0.5);
-        else if (arena.letterPressed('s')) setYAcc(0.5);
+        if (up) setYAcc(-0.5);
+        else if (down) setYAcc(0.5);
     }
 
-    public void stopVertical(GameArena arena) {
-        if (arena.letterPressed('w') || arena.letterPressed('s')) return;
+    public void stopVertical(GameArena arena, boolean up, boolean down) {
+        if (up || down) return;
         if (getYVel()!=0) setYAcc(-(0.5*getYVel()));
         else setYAcc(0);
     }
 
-    public void moveHorizontal(GameArena arena) {
-        boundaryHit();
+    public void moveHorizontal(GameArena arena, boolean left, boolean right, int leftEdge, int rightEdge) {
+        boundaryHit(leftEdge, rightEdge);
         setXAcc(0);
-        if (arena.letterPressed('a')) setXAcc(-0.5);
-        else if (arena.letterPressed('d')) setXAcc(0.5);
+        if (left) setXAcc(-0.5);
+        else if (right) setXAcc(0.5);
     }
 
-    public void stopHorizontal(GameArena arena) {
-        if (arena.letterPressed('a') || arena.letterPressed('d')) return;
+    public void stopHorizontal(GameArena arena, boolean left, boolean right) {
+        if (left || right) return;
         if (getXVel()!=0) setXAcc(-(0.5*getXVel()));
         else setXAcc(0);
+    }
+
+    public void moveKeyPress(GameArena arena, boolean up, boolean left, boolean down, boolean right, int leftEdge, int rightEdge) {
+        moveVertical(arena, up, down, leftEdge, rightEdge);
+        moveHorizontal(arena, left, right, leftEdge, rightEdge);
+        stopVertical(arena, up, down);
+        stopHorizontal(arena, left, right);
+        move(arena);
     }
 }
