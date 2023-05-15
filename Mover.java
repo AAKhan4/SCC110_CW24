@@ -61,7 +61,7 @@ public class Mover {
     }
 
     public void setYVel(double y) {
-        vel[0] = y;
+        vel[1] = y;
     }
 
     public void setVel(double x, double y) { //individual values inserting
@@ -99,18 +99,19 @@ public class Mover {
 
     //Following function adds appropriate acceleration to emulate friction on the object while moving
     //Uses equations - F=ma; F(friction) = frictCoef * F(Normal)
-    public void dynamicFriction() {
+    public double[] dynamicFriction() {
         double fricAcceleration = (9.81*frictCoef);
         double directFric = (getDirection()+Math.PI);
-        acc[0] += fricAcceleration*Math.cos(directFric); //Adding friction to x-component of acceleration
-        acc[1] += fricAcceleration*Math.sin(directFric); //Adding friction to y-component of acceleration
+        double[] friction = new double[2];
+        friction[0] = fricAcceleration*Math.cos(directFric); //x-component of friction
+        friction[1] = fricAcceleration*Math.sin(directFric); //y-component of friction
+        
+        setAcc(acc[0]+friction[0], acc[1]+friction[1]);
+        return Arrays.copyOf(friction, friction.length);
     }
 
-    public void undoFriction() {
-        double fricAcceleration = (9.81*frictCoef);
-        double directFric = (getDirection()+Math.PI);
-        acc[0] -= fricAcceleration*Math.cos(directFric); //Removing friction to x-component of acceleration
-        acc[1] -= fricAcceleration*Math.sin(directFric); //Removing friction to y-component of acceleration
+    public void undoFriction(double[] friction) {
+        setAcc(acc[0]-friction[0], acc[1]-friction[1]);
     }
 
     public char touchingEdge(int leftEdge, int rightEdge) { //Values here for table boundaries are not set

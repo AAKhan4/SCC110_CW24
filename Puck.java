@@ -21,4 +21,14 @@ public class Puck extends Mover{
 
         setVel(temp);
     }
+
+    public void moveAround(GameArena arena, int leftEdge, int rightEdge) {
+        double[] tempFric = {0,0};
+        if (getXVel()<0.01 && getXVel()>-0.01) setXVel(0);
+        if (getYVel()<0.01 && getYVel()>-0.01) setYVel(0);
+        if (!(getXVel()+getYVel()<0.05 && getYVel()+getXVel()>-0.05)) tempFric = dynamicFriction();
+        move(arena);
+    	undoFriction(tempFric);
+        bounce(leftEdge, rightEdge);
+    }
 }
