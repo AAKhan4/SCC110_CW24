@@ -485,8 +485,8 @@ public class GameArena extends JPanel implements Runnable, KeyListener, MouseLis
 	}
 
 	/**
-	 * Pause for a 1/50 of a second.
-	 * This method causes your program to delay for 1/50th of a second. You'll find this useful if you're trying to animate your application.
+	 * Pause for a 1/100 of a second.
+	 * This method causes your program to delay for 1/100th of a second. You'll find this useful if you're trying to animate your application.
 	 *
 	 */
 	public void pause()

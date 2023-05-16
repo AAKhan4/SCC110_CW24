@@ -2,7 +2,7 @@ public class Puck extends Mover{
     private boolean goal = false;
 
     public Puck(int x, int y, GameArena arena) {
-        super(x, y, 0.0103, 10, arena);
+        super(x, y, 0.005, 10, arena);
         setTokenColour("BLACK");
     }
 

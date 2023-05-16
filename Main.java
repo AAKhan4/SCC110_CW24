@@ -6,8 +6,8 @@ public class Main {
         Puck puck = new Puck(518, 338, arena);
         Mallet player1 = new Mallet(304, 338, arena);
         Mallet player2 = new Mallet(732, 338, arena);
-        puck.setXVel(15); //TEST VELOCITY VALUES FOR PUCK
-        puck.setYVel(15);
+        puck.setXVel(8); //TEST VELOCITY VALUES FOR PUCK
+        puck.setYVel(8);
         while (true) {
             player1.moveKeyPress(arena, arena.letterPressed('w'), arena.letterPressed('a'), arena.letterPressed('s'), arena.letterPressed('d'), 190, 518);
             player2.moveKeyPress(arena, arena.upPressed(), arena.leftPressed(), arena.downPressed(), arena.rightPressed(), 518, 845);
