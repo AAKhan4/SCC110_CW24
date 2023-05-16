@@ -34,6 +34,7 @@ public class Mallet extends Mover{
             if (getYVel()>-5) setYAcc(-0.7);
             if (getYVel()>-3.5) setYAcc(-1.25);
             if (getYVel()>-2.5) setYAcc(-1.75);
+            if (getYVel()>-0.5) setYAcc(-0.2);
             if (getYVel()>0) setYAcc(-2);
         } else if (down) {
             if (getYVel()>=8) {
@@ -47,6 +48,7 @@ public class Mallet extends Mover{
             if (getYVel()<5) setYAcc(0.7);
             if (getYVel()<3.5) setYAcc(1.25);
             if (getYVel()<2.5) setYAcc(1.75);
+            if (getYVel()<0.5) setYAcc(0.2);
             if (getYVel()<0) setYAcc(2);
         }
     }
@@ -72,6 +74,7 @@ public class Mallet extends Mover{
             if (getXVel()>-5) setXAcc(-0.7);
             if (getXVel()>-3.5) setXAcc(-1.25);
             if (getXVel()>-2.5) setXAcc(-1.75);
+            if (getXVel()>-0.5) setXAcc(0.2);
             if (getXVel()>0) setXAcc(-2);
         } else if (right) {
             if (getXVel()>=8) {
@@ -85,6 +88,7 @@ public class Mallet extends Mover{
             if (getXVel()<5) setXAcc(0.7);
             if (getXVel()<3.5) setXAcc(1.25);
             if (getXVel()<2.5) setXAcc(1.75);
+            if (getXVel()<0.5) setXAcc(0.2);
             if (getXVel()<0) setXAcc(2);
         }
     }
