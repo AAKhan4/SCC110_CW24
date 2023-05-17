@@ -3,13 +3,15 @@ import java.util.Arrays;
 public class Mover {
     //Array of 2 values for x & y axes
     private Ball token;
+    private double prop_mass; // set always in proportions i.e. real_mass/puck_mass
     private double[] vel = {0,0}; //velocity
     private double[] acc = {0,0}; //acceleration
     private double frictCoef; //Coefficient of friction
     private int radius;
 
     //Simple constructor initial position of choice. velocity & acceleration = 0
-    public Mover(double x, double y, double frictCoef, int radius, GameArena arena) {
+    public Mover(double mass, double x, double y, double frictCoef, int radius, GameArena arena) {
+        this.prop_mass = mass;
         this.token = new Ball(x, y, (2*radius), null, 1);
         this.frictCoef = frictCoef;
         this.radius = radius;
