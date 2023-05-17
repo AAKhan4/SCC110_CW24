@@ -1,5 +1,5 @@
 public class Puck extends Mover{
-    private boolean goal = false;
+    private boolean[] goal = {false, false};
 
     public Puck(int x, int y, GameArena arena) {
         super(1, x, y, 0.005, 10, arena);
