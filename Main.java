@@ -11,8 +11,8 @@ public class Main {
         puck.setXVel(8); //TEST VELOCITY VALUES FOR PUCK
         puck.setYVel(8);
         while (true) {
-            player1.moveKeyPress(arena, arena.letterPressed('w'), arena.letterPressed('a'), arena.letterPressed('s'), arena.letterPressed('d'), 190, 518);
-            player2.moveKeyPress(arena, arena.upPressed(), arena.leftPressed(), arena.downPressed(), arena.rightPressed(), 518, 845);
+            player1.moveKeyPress(puck, arena, arena.letterPressed('w'), arena.letterPressed('a'), arena.letterPressed('s'), arena.letterPressed('d'), 190, 518);
+            player2.moveKeyPress(puck, arena, arena.upPressed(), arena.leftPressed(), arena.downPressed(), arena.rightPressed(), 518, 845);
             puck.moveAround(arena, 190, 845);
         }
     }

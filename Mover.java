@@ -21,6 +21,19 @@ public class Mover {
 
     //Sets of simple Getters and Mutators
 
+    public double getMass() {
+        return prop_mass;
+    }
+
+    public void setMass(double mass) {
+        prop_mass = mass;
+    }
+
+    public double[] getPos() {
+        double[] temp = {getXPos(), getYPos()};
+        return Arrays.copyOf(temp, temp.length);
+    }
+
     public double getXPos() {
         return token.getXPosition();
     }
@@ -58,6 +71,10 @@ public class Mover {
         return vel[1];
     }
 
+    public double getScalarVel() {
+        return (Math.sqrt((vel[0]*vel[0])+(vel[1]*vel[1])));
+    }
+
     public void setXVel(double x) {
         vel[0] = x;
     }
@@ -93,6 +110,14 @@ public class Mover {
         acc[1] = y;
     }
 
+    public int getRadius() {
+        return radius;
+    }
+
+    public void setRadius(int r) {
+        radius = r;
+    }
+
     //Returns direction of motion in radians.
     public double getDirection() { 
         return Math.atan2(vel[1], vel[0]);
@@ -118,12 +143,12 @@ public class Mover {
 
     public char touchingEdge(int leftEdge, int rightEdge) { //Values here for table boundaries are not set
         if (((getXPos()-radius) <= leftEdge || (getXPos()+radius) >= rightEdge) && ((getYPos()-radius) <= 160 || (getYPos()+radius) >= 515)) {
-            setXPos(((getXPos()-radius)<=leftEdge)? (leftEdge+radius):(rightEdge-radius));
+            setXPos(((getXPos()-radius)<=leftEdge)? (leftEdge+radius+1):(rightEdge-radius-1));
             setYPos(((getYPos()-radius)<=160)? (160+radius):(515-radius));
             return 'b';
         }
         if ((getXPos()-radius) <= leftEdge || (getXPos()+radius) >= rightEdge) {
-            setXPos(((getXPos()-radius)<=leftEdge)? (leftEdge+radius):(rightEdge-radius)); //In case mover runs out of table this moves it back to boundary
+            setXPos(((getXPos()-radius)<=leftEdge)? (leftEdge+radius+1):(rightEdge-radius-1)); //In case mover runs out of table this moves it back to boundary
             return 'v'; //'v' for vertical boundary touched
         }
         if ((getYPos()-radius) <= 160 || (getYPos()+radius) >= 515) {

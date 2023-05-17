@@ -99,11 +99,47 @@ public class Mallet extends Mover{
         else setXAcc(0);
     }
 
-    public void moveKeyPress(GameArena arena, boolean up, boolean left, boolean down, boolean right, int leftEdge, int rightEdge) {
+    public void moveKeyPress(Puck puck, GameArena arena, boolean up, boolean left, boolean down, boolean right, int leftEdge, int rightEdge) {
+        deflectionCalc(puck);
         moveVertical(arena, up, down, leftEdge, rightEdge);
         moveHorizontal(arena, left, right, leftEdge, rightEdge);
         stopVertical(arena, up, down);
         stopHorizontal(arena, left, right);
         move(arena);
+    }
+    
+    /**
+     * Calculates the angle of contact between this and another object
+     * @param puck 
+     */
+    public double calcPhi(Puck puck) {
+        double phi = Math.atan2((puck.getYPos()-getYPos()), (puck.getXPos()-getXPos()));
+        return phi;
+    }
+
+    /**
+     * Calculates velocities of objects undergoing collision and sets them accordingly
+     * @param puck
+     */
+    public void deflectionCalc(Puck puck) {
+        double distance = Math.sqrt(((puck.getXPos()-getXPos())*(puck.getXPos()-getXPos()))+((puck.getYPos()-getYPos())*(puck.getYPos()-getYPos())));
+        if (distance > (getRadius()+puck.getRadius())) return;
+        
+        double phi = calcPhi(puck);
+
+        if (distance < (getRadius()+puck.getRadius())) {
+            puck.setPos((getXPos()+((getRadius()+puck.getRadius())*Math.cos(phi))), (getYPos()+((getRadius()+puck.getRadius())*Math.sin(phi))));
+        }
+
+        double vel_x = ((((getScalarVel()*Math.cos(getDirection()-phi)*(getMass()-puck.getMass()))+(2*puck.getMass()*puck.getScalarVel()*Math.cos(puck.getDirection()-phi)))*(Math.cos(phi)/(getMass()+puck.getMass())))+(getScalarVel()*Math.sin(getDirection()-phi)*Math.cos(phi+(Math.PI/2))));
+        double vel_y = ((((getScalarVel()*Math.cos(getDirection()-phi)*(getMass()-puck.getMass()))+(2*puck.getMass()*puck.getScalarVel()*Math.cos(puck.getDirection()-phi)))*(Math.sin(phi)/(getMass()+puck.getMass())))+(getScalarVel()*Math.sin(getDirection()-phi)*Math.sin(phi+(Math.PI/2))));
+
+        double puckVel_x = ((((puck.getScalarVel()*Math.cos(puck.getDirection()-phi)*(puck.getMass()-getMass()))+(2*getMass()*getScalarVel()*Math.cos(getDirection()-phi)))*(Math.cos(phi)/(getMass()+puck.getMass())))+(puck.getScalarVel()*Math.sin(puck.getDirection()-phi)*Math.cos(phi+(Math.PI/2))));
+        double puckVel_y = ((((puck.getScalarVel()*Math.cos(puck.getDirection()-phi)*(puck.getMass()-getMass()))+(2*getMass()*getScalarVel()*Math.cos(getDirection()-phi)))*(Math.sin(phi)/(getMass()+puck.getMass())))+(puck.getScalarVel()*Math.sin(puck.getDirection()-phi)*Math.sin(phi+(Math.PI/2))));
+
+        setXVel(vel_x);
+        setYVel(vel_y);
+        puck.setXVel(puckVel_x);
+        puck.setYVel(puckVel_y);
     }
 }
