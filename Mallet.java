@@ -5,7 +5,7 @@ public class Mallet extends Mover{
         setTokenColour("BLUE");
     }
 
-    public void boundaryHit(int leftEdge, int rightEdge) {
+    private void boundaryHit(int leftEdge, int rightEdge) {
         char surface = touchingEdge(leftEdge, rightEdge);
         if (surface=='n') return;
         double[] temp = getVel();
@@ -19,7 +19,7 @@ public class Mallet extends Mover{
     }
 
     //All moves need improvement; idea: acc should be higher at start then approach 0 in a direction
-    public void moveVertical(GameArena arena, boolean up, boolean down, int leftEdge, int rightEdge) {
+    private void moveVertical(GameArena arena, boolean up, boolean down, int leftEdge, int rightEdge) {
         boundaryHit(leftEdge, rightEdge);
         setYAcc(0);
         if (up) {
@@ -55,13 +55,13 @@ public class Mallet extends Mover{
         }
     }
 
-    public void stopVertical(GameArena arena, boolean up, boolean down) {
+    private void stopVertical(GameArena arena, boolean up, boolean down) {
         if (up || down) return;
         if (getYVel()!=0) setYAcc(-(getYVel()/5));
         else setYAcc(0);
     }
 
-    public void moveHorizontal(GameArena arena, boolean left, boolean right, int leftEdge, int rightEdge) {
+    private void moveHorizontal(GameArena arena, boolean left, boolean right, int leftEdge, int rightEdge) {
         boundaryHit(leftEdge, rightEdge);
         setXAcc(0);
         if (left) {
@@ -97,7 +97,7 @@ public class Mallet extends Mover{
         }
     }
 
-    public void stopHorizontal(GameArena arena, boolean left, boolean right) {
+    private void stopHorizontal(GameArena arena, boolean left, boolean right) {
         if (left || right) return;
         if (getXVel()!=0) setXAcc(-(getXVel()/5));
         else setXAcc(0);
@@ -116,7 +116,7 @@ public class Mallet extends Mover{
      * Calculates the angle of contact between this and another object
      * @param puck 
      */
-    public double calcPhi(Puck puck) {
+    private double calcPhi(Puck puck) {
         double phi = Math.atan2((puck.getYPos()-getYPos()), (puck.getXPos()-getXPos()));
         return phi;
     }
@@ -125,7 +125,7 @@ public class Mallet extends Mover{
      * Calculates velocities of objects undergoing collision and sets them accordingly
      * @param puck
      */
-    public void deflectionCalc(Puck puck) {
+    private void deflectionCalc(Puck puck) {
         double distance = Math.sqrt(((puck.getXPos()-getXPos())*(puck.getXPos()-getXPos()))+((puck.getYPos()-getYPos())*(puck.getYPos()-getYPos())));
         if (distance > (getRadius()+puck.getRadius())) return;
         

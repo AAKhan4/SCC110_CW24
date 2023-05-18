@@ -1,12 +1,20 @@
+import java.util.Arrays;
+
 public class Puck extends Mover{
-    private boolean[] goal = {false, false};
+    private enum Goal {NONE, PLAYER1, PLAYER2}; // Choice of enum as it does not let any illegal argument pass through, i.e. if it were boolean array instead maybe both goals could show as true
 
     public Puck(int x, int y, GameArena arena) {
         super(1, x, y, 0.005, 10, arena);
         setTokenColour("BLACK");
     }
 
-    public void bounce(int leftEdge, int rightEdge) {
+    private Goal goalCheck() {
+        if (getXPos()<197 && getYPos()>264 && getYPos()<411) return Goal.PLAYER1;
+        if (getXPos()>838 && getYPos()>264 && getYPos()<411) return Goal.PLAYER2;
+        return Goal.NONE;
+    }
+
+    private void bounce(int leftEdge, int rightEdge) {
         char surface = touchingEdge(leftEdge, rightEdge);
         if (surface!='v' && surface!='h' && surface!='n' && surface!='b') throw new IllegalArgumentException("Surface has to be vertical 'v' or horizontal 'h'!");
         if (surface=='n') return;
@@ -20,6 +28,25 @@ public class Puck extends Mover{
         if (surface=='h') temp[1] = -(temp[1]*0.95);
 
         setVel(temp);
+    }
+
+    //Following function adds appropriate acceleration to emulate friction on the object while moving
+    //Uses equations - F=ma; F(friction) = frictCoef * F(Normal)
+    private double[] dynamicFriction() {
+        double[] acc = getAcc();
+        double fricAcceleration = (9.81*getFrictCoef());
+        double directFric = (getDirection()+Math.PI);
+        double[] friction = new double[2];
+        friction[0] = fricAcceleration*Math.cos(directFric); //x-component of friction
+        friction[1] = fricAcceleration*Math.sin(directFric); //y-component of friction
+        
+        setAcc(acc[0]+friction[0], acc[1]+friction[1]);
+        return Arrays.copyOf(friction, friction.length);
+    }
+
+    private void undoFriction(double[] friction) {
+        double[] acc = getAcc();
+        setAcc(acc[0]-friction[0], acc[1]-friction[1]);
     }
 
     public void moveAround(GameArena arena, int leftEdge, int rightEdge) {

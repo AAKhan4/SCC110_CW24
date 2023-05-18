@@ -29,6 +29,10 @@ public class Mover {
         prop_mass = mass;
     }
 
+    public double getFrictCoef() {
+        return frictCoef;
+    }
+
     public double[] getPos() {
         double[] temp = {getXPos(), getYPos()};
         return Arrays.copyOf(temp, temp.length);
@@ -122,23 +126,6 @@ public class Mover {
     public double getDirection() { 
         return Math.atan2(vel[1], vel[0]);
         // tan(a) = y/x where a is the direction <- line above performs arc tan and gives ans in radians
-    }
-
-    //Following function adds appropriate acceleration to emulate friction on the object while moving
-    //Uses equations - F=ma; F(friction) = frictCoef * F(Normal)
-    public double[] dynamicFriction() {
-        double fricAcceleration = (9.81*frictCoef);
-        double directFric = (getDirection()+Math.PI);
-        double[] friction = new double[2];
-        friction[0] = fricAcceleration*Math.cos(directFric); //x-component of friction
-        friction[1] = fricAcceleration*Math.sin(directFric); //y-component of friction
-        
-        setAcc(acc[0]+friction[0], acc[1]+friction[1]);
-        return Arrays.copyOf(friction, friction.length);
-    }
-
-    public void undoFriction(double[] friction) {
-        setAcc(acc[0]-friction[0], acc[1]-friction[1]);
     }
 
     public char touchingEdge(int leftEdge, int rightEdge) { //Values here for table boundaries are not set
