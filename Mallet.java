@@ -1,10 +1,25 @@
 public class Mallet extends Mover{
 
+    /**
+     * Constructor for Mallet class
+     * Creates mallet and places it in given position on the table/GameArena
+     * 
+     * @param x x-position of mallet
+     * @param y y-position of mallet
+     * @param arena GameArena object
+     */
     public Mallet(int x, int y, GameArena arena) {
-        super(10, x, y, 0, 25, arena); //check the friction coefficient for mallets properly!
+        super(10, x, y, 25, arena); //check the friction coefficient for mallets properly!
         setTokenColour("BLUE");
     }
 
+    /**
+     * Determines if a boundary has been hit
+     * If boundary is hit it reduces velocity in said direction to 0
+     * 
+     * @param leftEdge position of the left edge of table
+     * @param rightEdge position of the right edge of table
+     */
     private void boundaryHit(int leftEdge, int rightEdge) {
         char surface = touchingEdge(leftEdge, rightEdge);
         if (surface=='n') return;
@@ -18,7 +33,19 @@ public class Mallet extends Mover{
         setVel(temp);
     }
 
-    //All moves need improvement; idea: acc should be higher at start then approach 0 in a direction
+    /**
+     * If commanded to do so, moves mallet along the vertical axis if possible
+     * Movement conducted using acceleration rather than directly using velocity (changes in velocity directly would be too clunky)
+     * This adds a more real world touch where one cannot go 0 to 100 speed instantaneously
+     * Acceleration decreases with increasing velocity as player approaches maximum speed (cant go faster and can only apply minimal force, force friction = minimal force applied)
+     * Friction is not calculated and added to mallets as acceleration here is assumed to already so in account (if friction was added acceleration over time relation would still be same)
+     * 
+     * @param arena GameArena object
+     * @param up boolean command to move up
+     * @param down boolean command to move down
+     * @param leftEdge left edge of table
+     * @param rightEdge right edge of table
+     */
     private void moveVertical(GameArena arena, boolean up, boolean down, int leftEdge, int rightEdge) {
         boundaryHit(leftEdge, rightEdge);
         setYAcc(0);
@@ -55,12 +82,31 @@ public class Mallet extends Mover{
         }
     }
 
+    /**
+     * Checks if mallet is being commanded to move vertically
+     * If not this quickly decelerates its y-velocity to 0
+     * Quick deceleration again better resembles real world where one cannot instantaneously stop the mallet
+     * 
+     * @param arena GameArena object
+     * @param up Boolean for command to move up
+     * @param down boolean for command to move down
+     */
     private void stopVertical(GameArena arena, boolean up, boolean down) {
         if (up || down) return;
         if (getYVel()!=0) setYAcc(-(getYVel()/5));
         else setYAcc(0);
     }
 
+    /**
+     * If commanded to do so, moves mallet along the horizontal axis if possible
+     * Use of acceleration to do so is similar to that in vertical movement
+     * 
+     * @param arena GameArena object
+     * @param left boolean to move left
+     * @param right boolean to move right
+     * @param leftEdge left edge of table
+     * @param rightEdge right edge of table
+     */
     private void moveHorizontal(GameArena arena, boolean left, boolean right, int leftEdge, int rightEdge) {
         boundaryHit(leftEdge, rightEdge);
         setXAcc(0);
@@ -97,12 +143,32 @@ public class Mallet extends Mover{
         }
     }
 
+    /**
+     * Checks if mallet is being commanded to move horizontally
+     * If not this quickly decelerates its x-velocity to 0
+     * 
+     * @param arena GameArena object
+     * @param left boolean to move left
+     * @param right boolean to move right
+     */
     private void stopHorizontal(GameArena arena, boolean left, boolean right) {
         if (left || right) return;
         if (getXVel()!=0) setXAcc(-(getXVel()/5));
         else setXAcc(0);
     }
 
+    /**
+     * Combines all movement commands and functions for mallets and applies the movements in GameArena
+     * 
+     * @param puck Puck object in game
+     * @param arena GameArena object
+     * @param up boolean determined using letterPressed('w') or upPressed() functions in GameArena
+     * @param left determined similarly as boolean up
+     * @param down determined similarly as boolean up
+     * @param right determined similarly as boolean up
+     * @param leftEdge left edge of table
+     * @param rightEdge right edge of table
+     */
     public void moveKeyPress(Puck puck, GameArena arena, boolean up, boolean left, boolean down, boolean right, int leftEdge, int rightEdge) {
         deflectionCalc(puck);
         moveVertical(arena, up, down, leftEdge, rightEdge);
@@ -113,8 +179,9 @@ public class Mallet extends Mover{
     }
     
     /**
-     * Calculates the angle of contact between this and another object
-     * @param puck 
+     * Calculates the angle between centres of this mallet and the puck
+     * 
+     * @param puck puck in game
      */
     private double calcPhi(Puck puck) {
         double phi = Math.atan2((puck.getYPos()-getYPos()), (puck.getXPos()-getXPos()));
@@ -123,7 +190,9 @@ public class Mallet extends Mover{
 
     /**
      * Calculates velocities of objects undergoing collision and sets them accordingly
-     * @param puck
+     * Equations used to get velocities x and y for both mallet and puck can be accessed through the link in README.md file
+     * 
+     * @param puck puck in game
      */
     private void deflectionCalc(Puck puck) {
         double distance = Math.sqrt(((puck.getXPos()-getXPos())*(puck.getXPos()-getXPos()))+((puck.getYPos()-getYPos())*(puck.getYPos()-getYPos())));
