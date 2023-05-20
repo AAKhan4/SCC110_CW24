@@ -98,8 +98,8 @@ public class Main {
         if (score[0]>score[1]) playerName.setText(playerName.getText()+"1");
         if (score[0]<score[1]) playerName.setText(playerName.getText()+"2");
         else {
-            playerName.setText("NOBODY");
-            playerName.setXPosition(420);
+            playerName.setText("TIE");
+            playerName.setXPosition(480);
         }
     }
 }
