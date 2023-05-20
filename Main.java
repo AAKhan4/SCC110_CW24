@@ -10,14 +10,17 @@ public class Main {
         Puck puck = new Puck(518, 338, arena);
         Mallet player1 = new Mallet(304, 338, arena);
         Mallet player2 = new Mallet(732, 338, arena);
-
+        
+        gameOver(arena, score);
         while (true) {
             goalScore(player1, player2, puck, score, arena, scoreDisplay1, scoreDisplay2);
-
+            if (score[0] == 7 || score[1] == 7) break;
+            
             player1.moveKeyPress(puck, arena, arena.letterPressed('w'), arena.letterPressed('a'), arena.letterPressed('s'), arena.letterPressed('d'), 190, 518);
             player2.moveKeyPress(puck, arena, arena.upPressed(), arena.leftPressed(), arena.downPressed(), arena.rightPressed(), 518, 845);
             puck.moveAround(arena, 190, 845);
         }
+        
     }
 
     /**
@@ -84,5 +87,19 @@ public class Main {
         scoreDisplay2.setText((temp));
         puck.setPos(468, 338);
         for (int i = 0; i < 50; i++) arena.pause();
+    }
+    
+    private static void gameOver(GameArena arena, int[] score) {
+        arena.addRectangle(new Rectangle(100,40, 850, 520, "BLUE", 2));
+        arena.addRectangle(new Rectangle(110, 50, 830, 500, "WHITE", 2));
+        arena.addText(new Text("GAME OVER", 50, 355, 150, "BLACK", 2));
+        Text playerName = new Text("PLAYER ", 40, 405, 250, "DARKGREY", 2);
+        arena.addText(playerName);
+        if (score[0]>score[1]) playerName.setText(playerName.getText()+"1");
+        if (score[0]<score[1]) playerName.setText(playerName.getText()+"2");
+        else {
+            playerName.setText("NOBODY");
+            playerName.setXPosition(420);
+        }
     }
 }
