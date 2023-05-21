@@ -22,8 +22,14 @@ public class Puck extends Mover{
      * 
      * @return 0 if no goal, 1 if left goal, 2 if right goal
      */
-    public int goalCheck() {
-        if (!(touchingEdge(191, 841) == 'v' && getYPos()>264 && getYPos()<411)) return 0;
+    public int goalCheck(MusicManager music) {
+        if (!(touchingEdge(187, 848) == 'v' && getYPos()>266 && getYPos()<409)) return 0;
+        if (getScalarVel()>22.5) {
+            music.play("SCC110-AirHockey-main\\bounce.wav");
+            return 0;
+        }
+
+        music.play("SCC110-AirHockey-main\\applause.wav");
         if (getXPos()<328) return 1;
         else return 2;
     }
@@ -35,12 +41,21 @@ public class Puck extends Mover{
      * @param leftEdge left edge of table
      * @param rightEdge right edge of table
      */
-    private void bounce(int leftEdge, int rightEdge) {
+    private void bounce(int leftEdge, int rightEdge, MusicManager music) {
+        if (getYPos()>266 && getYPos()<409) {
+            leftEdge-=4;
+            rightEdge+=4;
+        }
         char surface = touchingEdge(leftEdge, rightEdge);
         if (surface!='v' && surface!='h' && surface!='n' && surface!='b') throw new IllegalArgumentException("Surface has to be vertical 'v' or horizontal 'h'!");
         if (surface=='n') return;
-
+        
         double[] temp = getVel();
+
+
+
+        if (!(getYPos()>266 && getYPos()<409)) music.play("SCC110-AirHockey-main\\bounce.wav");
+
         if (surface=='b') {
             temp[0]= -(temp[0]*0.97);
             temp[1]= -(temp[1]*0.97);
@@ -86,13 +101,13 @@ public class Puck extends Mover{
      * @param leftEdge Left edge of table
      * @param rightEdge Right edge of table
      */
-    public void moveAround(GameArena arena, int leftEdge, int rightEdge) {
+    public void moveAround(GameArena arena, int leftEdge, int rightEdge, MusicManager music) {
         double[] tempFric = {0,0};
         if (getXVel()<0.01 && getXVel()>-0.01) setXVel(0);
         if (getYVel()<0.01 && getYVel()>-0.01) setYVel(0);
         if (!(getXVel()+getYVel()<0.05 && getYVel()+getXVel()>-0.05)) tempFric = dynamicFriction();
         move(arena);
     	undoFriction(tempFric);
-        bounce(leftEdge, rightEdge);
+        bounce(leftEdge, rightEdge, music);
     }
 }

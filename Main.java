@@ -15,6 +15,7 @@ public class Main {
         Mallet player2 = new Mallet(732, 338, arena);
         
         do{
+            music.play("SCC110-AirHockey-main\\fanfare.wav");
             if (restart) {
                 restart = false;
                 score[0]=0;
@@ -27,14 +28,14 @@ public class Main {
             while (true) {
                 boolean stop = false;
 
-                goalScore(player1, player2, puck, score, arena, scoreDisplay1, scoreDisplay2);
+                goalScore(player1, player2, puck, score, arena, scoreDisplay1, scoreDisplay2, music);
                 if (score[0] == 7 || score[1] == 7) break;
                 
-                player1.moveKeyPress(puck, arena, arena.letterPressed('w'), arena.letterPressed('a'), arena.letterPressed('s'), arena.letterPressed('d'), 190, 518);
-                player2.moveKeyPress(puck, arena, arena.upPressed(), arena.leftPressed(), arena.downPressed(), arena.rightPressed(), 518, 845);
+                player1.moveKeyPress(puck, arena, arena.letterPressed('w'), arena.letterPressed('a'), arena.letterPressed('s'), arena.letterPressed('d'), 190, 518, music);
+                player2.moveKeyPress(puck, arena, arena.upPressed(), arena.leftPressed(), arena.downPressed(), arena.rightPressed(), 518, 845, music);
                 puck.moveAround(arena, 190, 845, music);
             }
-            restart = gameOver(arena, score, menuBorder(), endGameMenu());
+            restart = gameOver(arena, score, menuBorder(), endGameMenu(), music);
         } while(restart);
         
     }
@@ -75,8 +76,8 @@ public class Main {
      * @param scoreDisplay1
      * @param scoreDisplay2
      */
-    private static void goalScore(Mallet player1, Mallet player2, Puck puck, int[] score, GameArena arena, Text scoreDisplay1, Text scoreDisplay2) {
-        int goal = puck.goalCheck();
+    private static void goalScore(Mallet player1, Mallet player2, Puck puck, int[] score, GameArena arena, Text scoreDisplay1, Text scoreDisplay2, MusicManager music) {
+        int goal = puck.goalCheck(music);
         if (goal == 0) return;
         for (int i = 0; i < 25; i++) arena.pause();
         String temp = "";
@@ -122,7 +123,8 @@ public class Main {
         return endMenu;
     }
     
-    private static boolean gameOver(GameArena arena, int[] score, Rectangle[] border, Text[] menu) {
+    private static boolean gameOver(GameArena arena, int[] score, Rectangle[] border, Text[] menu, MusicManager music) {
+        music.play("SCC110-AirHockey-main\\drumroll.wav");
         for (int i = 0; i < border.length; i++) arena.addRectangle(border[i]);
         for (int j = 0; j < menu.length; j++) arena.addText(menu[j]);
         if (score[0]>score[1]) menu[1].setText(menu[1].getText()+"1");

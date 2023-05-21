@@ -9,7 +9,7 @@ public class Mallet extends Mover{
      * @param arena GameArena object
      */
     public Mallet(int x, int y, GameArena arena) {
-        super(7, x, y, 25, arena); //check the friction coefficient for mallets properly!
+        super(5, x, y, 25, arena); //check the friction coefficient for mallets properly!
         setTokenColour("BLUE");
     }
 
@@ -24,7 +24,10 @@ public class Mallet extends Mover{
         char surface = touchingEdge(leftEdge, rightEdge);
         if (surface=='n') return;
         double[] temp = getVel();
-        if (surface == 'v') temp[0] = 0;
+        if (surface == 'v') {
+            setXPos(((getXPos()-getRadius())<=leftEdge+1)? (leftEdge+getRadius()+1):(rightEdge-getRadius()-1));
+            temp[0] = 0;
+        }
         if (surface == 'h') temp[1] = 0;
         if (surface == 'b') {
             temp[0] = 0;
@@ -111,35 +114,35 @@ public class Mallet extends Mover{
         boundaryHit(leftEdge, rightEdge);
         setXAcc(0);
         if (left) {
-            if (getXVel()<=-10) {
+            if (getXVel()<=-12) {
                 setXAcc(0);
-                setXVel(-10);
+                setXVel(-12);
             }
-            if (getXVel()>-10) setXAcc(-0.1);
-            if (getXVel()>-9) setXAcc(-0.2);
-            if (getXVel()>-8.5) setXAcc(-0.3);
-            if (getXVel()>-7.5) setXAcc(-0.4);
-            if (getXVel()>-6) setXAcc(-0.7);
-            if (getXVel()>-4.5) setXAcc(-1.25);
-            if (getXVel()>-3.5) setXAcc(-1.75);
-            if (getXVel()>-2.5) setXAcc(-2);
+            if (getXVel()>-12) setXAcc(-0.1);
+            if (getXVel()>-11) setXAcc(-0.2);
+            if (getXVel()>-10) setXAcc(-0.3);
+            if (getXVel()>-9) setXAcc(-0.4);
+            if (getXVel()>-8) setXAcc(-0.7);
+            if (getXVel()>-6) setXAcc(-1.25);
+            if (getXVel()>-3) setXAcc(-1.75);
+            if (getXVel()>-2.5) setXAcc(-2.5);
             if (getXVel()>-0.5) setXAcc(-0.2);
             if (getXVel()>0) setXAcc(-2);
         } else if (right) {
-            if (getXVel()>=10) {
+            if (getXVel()>=12) {
                 setXAcc(0);
-                setXVel(10);
+                setXVel(12);
             }
-            if (getXVel()<10) setXAcc(0.1);
-            if (getXVel()<9) setXAcc(0.2);
-            if (getXVel()<8.5) setXAcc(0.3);
-            if (getXVel()<7.5) setXAcc(0.4);
-            if (getXVel()<6) setXAcc(0.7);
-            if (getXVel()<4.5) setXAcc(1.25);
-            if (getXVel()<3.5) setXAcc(1.75);
-            if (getXVel()<2.5) setXAcc(2);
+            if (getXVel()<12) setXAcc(0.1);
+            if (getXVel()<11) setXAcc(0.2);
+            if (getXVel()<10) setXAcc(0.3);
+            if (getXVel()<9) setXAcc(0.4);
+            if (getXVel()<8) setXAcc(0.7);
+            if (getXVel()<6) setXAcc(1.25);
+            if (getXVel()<3) setXAcc(1.75);
+            if (getXVel()<2.5) setXAcc(2.5);
             if (getXVel()<0.5) setXAcc(0.2);
-            if (getXVel()<0) setXAcc(2);
+            if (getXVel()<0) setXAcc(2.5);
         }
     }
 
@@ -169,8 +172,8 @@ public class Mallet extends Mover{
      * @param leftEdge left edge of table
      * @param rightEdge right edge of table
      */
-    public void moveKeyPress(Puck puck, GameArena arena, boolean up, boolean left, boolean down, boolean right, int leftEdge, int rightEdge) {
-        deflectionCalc(puck);
+    public void moveKeyPress(Puck puck, GameArena arena, boolean up, boolean left, boolean down, boolean right, int leftEdge, int rightEdge, MusicManager music) {
+        deflectionCalc(puck, music);
         moveVertical(arena, up, down, leftEdge, rightEdge);
         moveHorizontal(arena, left, right, leftEdge, rightEdge);
         stopVertical(arena, up, down);
@@ -194,9 +197,11 @@ public class Mallet extends Mover{
      * 
      * @param puck puck in game
      */
-    private void deflectionCalc(Puck puck) {
+    private void deflectionCalc(Puck puck, MusicManager music) {
         double distance = Math.sqrt(((puck.getXPos()-getXPos())*(puck.getXPos()-getXPos()))+((puck.getYPos()-getYPos())*(puck.getYPos()-getYPos())));
         if (distance > (getRadius()+puck.getRadius())) return;
+
+        music.play("SCC110-AirHockey-main\\hit.wav");
         
         double phi = calcPhi(puck);
 

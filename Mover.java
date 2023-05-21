@@ -267,7 +267,7 @@ public class Mover {
             return 'b';
         }
         if ((getXPos()-radius) <= leftEdge || (getXPos()+radius) >= rightEdge) {
-            setXPos(((getXPos()-radius)<=leftEdge)? (leftEdge+radius+1):(rightEdge-radius-1)); //In case mover runs out of table this moves it back to boundary
+            if (getYPos()>266 && getYPos()<409) setXPos(((getXPos()-radius)<=leftEdge)? (leftEdge+radius+1):(rightEdge-radius-1)); //In case mover runs out of table this moves it back to boundary
             return 'v'; //'v' for vertical boundary touched
         }
         if ((getYPos()-radius) <= 160 || (getYPos()+radius) >= 515) {
