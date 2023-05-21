@@ -1,25 +1,37 @@
 public class Main {
     public static void main(String[] args) {
         int[] score = {0,0};
+        boolean restart = false;
+
         GameArena arena = new GameArena(1050, 600);
         Text welcomeMsg = new Text("WELCOME TO AIR HOCKEY!", 40, 250, 100, "WHITE");
         Text scoreDisplay1 = new Text("0", 50, 70, 350, "WHITE");
         Text scoreDisplay2 = new Text("0", 50, 940, 350, "WHITE");
         innitAirHockey(arena, scoreDisplay1, scoreDisplay2, welcomeMsg);
+        System.out.println(welcomeMsg);
 
         Puck puck = new Puck(518, 338, arena);
         Mallet player1 = new Mallet(304, 338, arena);
         Mallet player2 = new Mallet(732, 338, arena);
         
-        gameOver(arena, score);
-        while (true) {
-            goalScore(player1, player2, puck, score, arena, scoreDisplay1, scoreDisplay2);
-            if (score[0] == 7 || score[1] == 7) break;
-            
-            player1.moveKeyPress(puck, arena, arena.letterPressed('w'), arena.letterPressed('a'), arena.letterPressed('s'), arena.letterPressed('d'), 190, 518);
-            player2.moveKeyPress(puck, arena, arena.upPressed(), arena.leftPressed(), arena.downPressed(), arena.rightPressed(), 518, 845);
-            puck.moveAround(arena, 190, 845);
-        }
+        do{
+            if (restart) {
+                restart = false;
+                //CONTINUE
+            }
+            score[0]=0;
+            score[1]=0;
+            while (true) {
+                boolean stop = false;
+                goalScore(player1, player2, puck, score, arena, scoreDisplay1, scoreDisplay2);
+                if (score[0] == 7 || score[1] == 7) break;
+                
+                player1.moveKeyPress(puck, arena, arena.letterPressed('w'), arena.letterPressed('a'), arena.letterPressed('s'), arena.letterPressed('d'), 190, 518);
+                player2.moveKeyPress(puck, arena, arena.upPressed(), arena.leftPressed(), arena.downPressed(), arena.rightPressed(), 518, 845);
+                puck.moveAround(arena, 190, 845);
+            }
+            restart = gameOver(arena, score, menuBorder(), endGameMenu());
+        } while(restart);
         
     }
 
@@ -88,18 +100,40 @@ public class Main {
         puck.setPos(468, 338);
         for (int i = 0; i < 50; i++) arena.pause();
     }
+
+    private static Rectangle[] menuBorder() {
+        Rectangle[] border = {new Rectangle(100,40, 850, 520, "BLUE", 2), 
+                              new Rectangle(110, 50, 830, 500, "WHITE", 2)};
+        
+        return border;
+    }
+
+    private static Text[] endGameMenu() {
+        Text[] endMenu = {new Text("GAME OVER", 50, 355, 150, "BLACK", 2), 
+                            new Text("PLAYER ", 40, 420, 260, "DARKGREY", 2), 
+                            new Text("WINS", 40, 462, 310, "DARKGREY", 2), 
+                            new Text("[SPACE] - NEW GAME", 20, 410, 430, "DARKGREY", 2), 
+                            new Text("[ENTER] - END GAME", 20, 412, 460, "DARKGREY", 2)};
+        
+        return endMenu;
+    }
     
-    private static void gameOver(GameArena arena, int[] score) {
-        arena.addRectangle(new Rectangle(100,40, 850, 520, "BLUE", 2));
-        arena.addRectangle(new Rectangle(110, 50, 830, 500, "WHITE", 2));
-        arena.addText(new Text("GAME OVER", 50, 355, 150, "BLACK", 2));
-        Text playerName = new Text("PLAYER ", 40, 405, 250, "DARKGREY", 2);
-        arena.addText(playerName);
-        if (score[0]>score[1]) playerName.setText(playerName.getText()+"1");
-        if (score[0]<score[1]) playerName.setText(playerName.getText()+"2");
+    private static boolean gameOver(GameArena arena, int[] score, Rectangle[] border, Text[] menu) {
+        for (int i = 0; i < border.length; i++) arena.addRectangle(border[i]);
+        for (int j = 0; j < menu.length; j++) arena.addText(menu[j]);
+        if (score[0]>score[1]) menu[1].setText(menu[1].getText()+"1");
+        else if (score[0]<score[1]) menu[1].setText(menu[1].getText()+"2");
         else {
-            playerName.setText("TIE");
-            playerName.setXPosition(480);
+            menu[1].setText("TIE");
+            menu[1].setXPosition(480);
+        }
+        
+        if (score[0]!=score[1]) arena.removeText(menu[3]);
+
+        while (true) {
+            System.out.print("");
+            if (arena.spacePressed()) return true;
+            if (arena.enterPressed()) return false;
         }
     }
 }
