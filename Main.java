@@ -17,12 +17,16 @@ public class Main {
         do{
             if (restart) {
                 restart = false;
-                //CONTINUE
+                score[0]=0;
+                score[1]=0;
+                String temp = "0";
+                scoreDisplay1.setText(temp);
+                scoreDisplay2.setText(temp);
+                puck.setXPos(518);
             }
-            score[0]=0;
-            score[1]=0;
             while (true) {
                 boolean stop = false;
+
                 goalScore(player1, player2, puck, score, arena, scoreDisplay1, scoreDisplay2);
                 if (score[0] == 7 || score[1] == 7) break;
                 
@@ -128,12 +132,23 @@ public class Main {
             menu[1].setXPosition(480);
         }
         
-        if (score[0]!=score[1]) arena.removeText(menu[3]);
+        if (score[0]!=score[1]) arena.removeText(menu[2]);
 
         while (true) {
             System.out.print("");
-            if (arena.spacePressed()) return true;
+            if (arena.spacePressed()) {
+                removeEndGame(arena, menu, border, score);
+                return true;
+            }
             if (arena.enterPressed()) return false;
         }
+    }
+
+    private static void removeEndGame(GameArena arena, Text[] menu, Rectangle[]border, int[] score) {
+        for (int i = 0; i < menu.length; i++) {
+            if (i!=2) arena.removeText(menu[i]);
+            if (i==2 && score[0]!=score[1]) arena.removeText(menu[i]);
+        }
+        for (int j = 0; j < border.length; j++) arena.removeRectangle(border[j]);
     }
 }
