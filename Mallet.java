@@ -9,7 +9,7 @@ public class Mallet extends Mover{
      * @param arena GameArena object
      */
     public Mallet(int x, int y, GameArena arena) {
-        super(10, x, y, 25, arena); //check the friction coefficient for mallets properly!
+        super(7, x, y, 25, arena); //check the friction coefficient for mallets properly!
         setTokenColour("BLUE");
     }
 
@@ -204,6 +204,8 @@ public class Mallet extends Mover{
             puck.setPos((getXPos()+((getRadius()+puck.getRadius())*Math.cos(phi))), (getYPos()+((getRadius()+puck.getRadius())*Math.sin(phi))));
         }
 
+        // Following equations calculate final velocity of an object which undergoes a 2D collision with another object
+        // This assumes the objects to be point masses and the equation to be elastic
         double vel_x = ((((getScalarVel()*Math.cos(getDirection()-phi)*(getMass()-puck.getMass()))+(2*puck.getMass()*puck.getScalarVel()*Math.cos(puck.getDirection()-phi)))*(Math.cos(phi)/(getMass()+puck.getMass())))+(getScalarVel()*Math.sin(getDirection()-phi)*Math.cos(phi+(Math.PI/2))));
         double vel_y = ((((getScalarVel()*Math.cos(getDirection()-phi)*(getMass()-puck.getMass()))+(2*puck.getMass()*puck.getScalarVel()*Math.cos(puck.getDirection()-phi)))*(Math.sin(phi)/(getMass()+puck.getMass())))+(getScalarVel()*Math.sin(getDirection()-phi)*Math.sin(phi+(Math.PI/2))));
 

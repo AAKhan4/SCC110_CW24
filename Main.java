@@ -4,11 +4,11 @@ public class Main {
         boolean restart = false;
 
         GameArena arena = new GameArena(1050, 600);
+        MusicManager music = new MusicManager();
         Text welcomeMsg = new Text("WELCOME TO AIR HOCKEY!", 40, 250, 100, "WHITE");
         Text scoreDisplay1 = new Text("0", 50, 70, 350, "WHITE");
         Text scoreDisplay2 = new Text("0", 50, 940, 350, "WHITE");
         innitAirHockey(arena, scoreDisplay1, scoreDisplay2, welcomeMsg);
-        System.out.println(welcomeMsg);
 
         Puck puck = new Puck(518, 338, arena);
         Mallet player1 = new Mallet(304, 338, arena);
@@ -32,7 +32,7 @@ public class Main {
                 
                 player1.moveKeyPress(puck, arena, arena.letterPressed('w'), arena.letterPressed('a'), arena.letterPressed('s'), arena.letterPressed('d'), 190, 518);
                 player2.moveKeyPress(puck, arena, arena.upPressed(), arena.leftPressed(), arena.downPressed(), arena.rightPressed(), 518, 845);
-                puck.moveAround(arena, 190, 845);
+                puck.moveAround(arena, 190, 845, music);
             }
             restart = gameOver(arena, score, menuBorder(), endGameMenu());
         } while(restart);
