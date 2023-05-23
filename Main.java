@@ -29,7 +29,8 @@ public class Main {
                 boolean stop = false;
 
                 goalScore(player1, player2, puck, score, arena, scoreDisplay1, scoreDisplay2, music);
-                if (score[0] == 7 || score[1] == 7) break;
+                if (arena.escPressed()) stop = pauseGame(arena, menuBorder(), pauseMenu(), music, true);
+                if (score[0] == 7 || score[1] == 7 || stop) break;
                 
                 player1.moveKeyPress(puck, arena, arena.letterPressed('w'), arena.letterPressed('a'), arena.letterPressed('s'), arena.letterPressed('d'), 190, 518, music);
                 player2.moveKeyPress(puck, arena, arena.upPressed(), arena.leftPressed(), arena.downPressed(), arena.rightPressed(), 518, 845, music);
@@ -37,7 +38,7 @@ public class Main {
             }
             restart = gameOver(arena, score, menuBorder(), endGameMenu(), music);
         } while(restart);
-        
+        arena.addRectangle(new Rectangle(0, 0, 1050, 600, "BLACK", 3));
     }
 
     /**
@@ -106,6 +107,11 @@ public class Main {
         for (int i = 0; i < 50; i++) arena.pause();
     }
 
+    /**
+     * Creates a box for any menu that pops up
+     * 
+     * @return array with all rectangles needed to make the box
+     */
     private static Rectangle[] menuBorder() {
         Rectangle[] border = {new Rectangle(100,40, 850, 520, "BLUE", 2), 
                               new Rectangle(110, 50, 830, 500, "WHITE", 2)};
@@ -113,6 +119,11 @@ public class Main {
         return border;
     }
 
+    /**
+     * Creates all text that goes into making the end game menu
+     * 
+     * @return array with all Text objects required to make the end game menu
+     */
     private static Text[] endGameMenu() {
         Text[] endMenu = {new Text("GAME OVER", 50, 355, 150, "BLACK", 2), 
                             new Text("PLAYER ", 40, 420, 260, "DARKGREY", 2), 
@@ -123,6 +134,57 @@ public class Main {
         return endMenu;
     }
     
+    /**
+     * Creates all text that goes into making the pause menu
+     * 
+     * @return array with all Text objects required to make the pause menu
+     */
+    private static Text[] pauseMenu() {
+        Text[] pause = {new Text("PAUSED", 50, 410, 150, "BLACK", 2), 
+                            new Text("[M] - MUTE SOUND", 20, 420, 360, "DARKGREY", 2), 
+                            new Text("[U] - UNMUTE SOUND", 20, 410, 400, "DARKGREY", 2), 
+                            new Text("[SPACE] - RESUME", 20, 418, 440, "DARKGREY", 2), 
+                            new Text("[ENTER] - QUIT", 20, 436, 480, "DARKGREY", 2)};
+        
+        return pause;
+    }
+
+    private static boolean pauseGame(GameArena arena, Rectangle[] border, Text[] menu, MusicManager music, boolean visible) {
+        if (!visible) {
+            for (int j=0; j<menu.length; j++) arena.removeText(menu[j]);
+            for (int i=0; i<border.length; i++) arena.removeRectangle(border[i]);
+            return false;
+        }
+
+        for (int i=0; i<border.length; i++) arena.addRectangle(border[i]);
+        for (int j=0; j<menu.length; j++) arena.addText(menu[j]);
+        while (true) {
+            System.out.print("");
+            if (arena.letterPressed('m')) music.setStatus(true);
+            if (arena.letterPressed('u')) music.setStatus(false);
+            if (arena.spacePressed()) {
+                pauseGame(arena, border, menu, music, false);
+                return false;
+            }
+            if (arena.enterPressed()) {
+                while (arena.enterPressed()) System.out.print("");
+                pauseGame(arena, border, menu, music, false);
+                return true;
+            }
+        }
+    }
+
+    /**
+     * Function in charge of running the end game menu after a game terminates
+     * 
+     * @param arena GameArena object
+     * @param score array holding the end score
+     * @param border array holding objects to create the border for the menu
+     * @param menu array holding text required to create this menu
+     * @param music MusicManager to play end game music
+     * 
+     * @return whether the user wishes to restart the game or quit
+     */
     private static boolean gameOver(GameArena arena, int[] score, Rectangle[] border, Text[] menu, MusicManager music) {
         music.play("SCC110-AirHockey-main\\drumroll.wav");
         for (int i = 0; i < border.length; i++) arena.addRectangle(border[i]);
@@ -134,19 +196,27 @@ public class Main {
             menu[1].setXPosition(480);
         }
         
-        if (score[0]!=score[1]) arena.removeText(menu[2]);
+        if(score[0]==score[1]) arena.removeText(menu[2]);
 
         while (true) {
             System.out.print("");
             if (arena.spacePressed()) {
-                removeEndGame(arena, menu, border, score);
+                restartGame(arena, menu, border, score);
                 return true;
             }
             if (arena.enterPressed()) return false;
         }
     }
 
-    private static void removeEndGame(GameArena arena, Text[] menu, Rectangle[]border, int[] score) {
+    /**
+     * Removes the end game menu in case the user wishes to restart the game
+     * 
+     * @param arena GameArena object
+     * @param menu array holding Texts required for this menu
+     * @param border array holding Rectangles required for this menu
+     * @param score array holding the final score
+     */
+    private static void restartGame(GameArena arena, Text[] menu, Rectangle[]border, int[] score) {
         for (int i = 0; i < menu.length; i++) {
             if (i!=2) arena.removeText(menu[i]);
             if (i==2 && score[0]!=score[1]) arena.removeText(menu[i]);
