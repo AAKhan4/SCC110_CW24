@@ -10,19 +10,11 @@ The sound effects featured can be muted and unmuted using paused screen menu.
 
 The game can be run through the Main.java file.
 
+Reference for 2D elastic collision equation used in Mallet.java - https://williamecraver.wixsite.com/elastic-equations
+
 This repository contains the following files for the SCC.110 project "Air Hockey" (Project 2 in 2022/23):
 
 SCC110-AirHockey-main
-
-    *\docs* containing JavaDoc documentation
-
-    *Java classes (.java files)
-    + Ball.java
-    + GameArena.java
-    + Line.java
-    + Rectangle.java
-    + Text.java
-
     *Sound effects (.wav files)
     + applause.wav
     + bounce.wav
@@ -30,11 +22,26 @@ SCC110-AirHockey-main
     + fanfare.wav
     + hit.wav
 
-*Java classes (.java files)
+*Java files (.java files)
 + Main.java
 + Mover.java
 + Mallet.java
 + Puck.java
 + MusicManager.java
++ GameArena.java
++ Line.java
++ Ball.java
++ Text.java
++ Rectangle.java
 
-Reference for 2D elastic collision equation - https://williamecraver.wixsite.com/elastic-equations
+*Class files (.class files)
++ Main.class
++ Mover.class
++ Mallet.class
++ Puck.class
++ MusicManager.class
++ GameArena.class
++ Line.class
++ Ball.class
++ Text.class
++ Rectangle.class
