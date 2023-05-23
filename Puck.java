@@ -24,7 +24,7 @@ public class Puck extends Mover{
      */
     public int goalCheck(MusicManager music) {
         if (!(touchingEdge(187, 848) == 'v' && getYPos()>266 && getYPos()<409)) return 0;
-        if (getScalarVel()>22.5) {
+        if (getScalarVel()>25) {
             music.play("SCC110-AirHockey-main\\bounce.wav");
             return 0;
         }

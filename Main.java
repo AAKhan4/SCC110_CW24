@@ -15,7 +15,6 @@ public class Main {
         Mallet player2 = new Mallet(732, 338, arena);
         
         do{
-            music.play("SCC110-AirHockey-main\\fanfare.wav");
             if (restart) {
                 restart = false;
                 score[0]=0;
@@ -25,6 +24,10 @@ public class Main {
                 scoreDisplay2.setText(temp);
                 puck.setXPos(518);
             }
+
+            startMenu(arena, menuBorder(), music);
+            music.play("SCC110-AirHockey-main\\fanfare.wav");
+            
             while (true) {
                 boolean stop = false;
 
@@ -64,6 +67,8 @@ public class Main {
         
         arena.addLine(new Line(518, 160, 518, 288, 1, "BLUE", 0));
         arena.addLine(new Line(518, 388, 518, 515, 1, "BLUE", 0));
+
+        arena.addText(new Text("[ESC] - PAUSE", 20, 445, 135, "WHITE", 0));
     }
 
     /**
@@ -149,6 +154,42 @@ public class Main {
         return pause;
     }
 
+    /**
+     * Responsible for adding and removing the start menu that appears at the start of every game
+     * 
+     * @param arena GameArena object
+     * @param border array holding objects to create the border for the menu
+     * @param music MusicManager to play the starting sound (drumroll)
+     */
+    private static void startMenu(GameArena arena, Rectangle[] border, MusicManager music) {
+        for (int i = 0; i < border.length; i++) arena.addRectangle(border[i]);
+        Text title = new Text("AIR HOCKEY", 50, 350, 150, "BLACK", 2);
+        Text sub = new Text("[SPACE] - START", 20, 420, 460, "DARKGREY", 2);
+        arena.addText(title);
+        arena.addText(sub);
+        music.play("SCC110-AirHockey-main\\drumroll.wav");
+        while (true) {
+            System.out.print("");
+            if (arena.spacePressed()) {
+                arena.removeText(title);
+                arena.removeText(sub);
+                for (int i = 0; i < border.length; i++) arena.removeRectangle(border[i]);
+                return;
+            }
+        }
+    }
+
+    /**
+     * Creates and/or removes the pause menu in game when called
+     * 
+     * @param arena GameArena object
+     * @param border array holding objects to create the border for the menu
+     * @param menu array holding text required to create this menu
+     * @param music MusicManager to mute or unmute its sound output
+     * @param visible boolean saying whether to create or remove this menu
+     * 
+     * @return boolean if the game is quit
+     */
     private static boolean pauseGame(GameArena arena, Rectangle[] border, Text[] menu, MusicManager music, boolean visible) {
         if (!visible) {
             for (int j=0; j<menu.length; j++) arena.removeText(menu[j]);
@@ -186,7 +227,7 @@ public class Main {
      * @return whether the user wishes to restart the game or quit
      */
     private static boolean gameOver(GameArena arena, int[] score, Rectangle[] border, Text[] menu, MusicManager music) {
-        music.play("SCC110-AirHockey-main\\drumroll.wav");
+        music.play("SCC110-AirHockey-main\\fanfare.wav");
         for (int i = 0; i < border.length; i++) arena.addRectangle(border[i]);
         for (int j = 0; j < menu.length; j++) arena.addText(menu[j]);
         if (score[0]>score[1]) menu[1].setText(menu[1].getText()+"1");
