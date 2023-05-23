@@ -201,7 +201,7 @@ public class Mallet extends Mover{
         double distance = Math.sqrt(((puck.getXPos()-getXPos())*(puck.getXPos()-getXPos()))+((puck.getYPos()-getYPos())*(puck.getYPos()-getYPos())));
         if (distance > (getRadius()+puck.getRadius())) return;
 
-        music.play("SCC110-AirHockey-main\\hit.wav");
+        music.play("SCC110-AirHockey-main/hit.wav");
         
         double phi = calcPhi(puck);
 

@@ -26,7 +26,7 @@ public class Main {
             }
 
             startMenu(arena, menuBorder(), music);
-            music.play("SCC110-AirHockey-main\\fanfare.wav");
+            music.play("SCC110-AirHockey-main/fanfare.wav");
             
             while (true) {
                 boolean stop = false;
@@ -167,7 +167,7 @@ public class Main {
         Text sub = new Text("[SPACE] - START", 20, 420, 460, "DARKGREY", 2);
         arena.addText(title);
         arena.addText(sub);
-        music.play("SCC110-AirHockey-main\\drumroll.wav");
+        music.play("SCC110-AirHockey-main/drumroll.wav");
         while (true) {
             System.out.print("");
             if (arena.spacePressed()) {
@@ -227,7 +227,7 @@ public class Main {
      * @return whether the user wishes to restart the game or quit
      */
     private static boolean gameOver(GameArena arena, int[] score, Rectangle[] border, Text[] menu, MusicManager music) {
-        music.play("SCC110-AirHockey-main\\fanfare.wav");
+        music.play("SCC110-AirHockey-main/fanfare.wav");
         for (int i = 0; i < border.length; i++) arena.addRectangle(border[i]);
         for (int j = 0; j < menu.length; j++) arena.addText(menu[j]);
         if (score[0]>score[1]) menu[1].setText(menu[1].getText()+"1");

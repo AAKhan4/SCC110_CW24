@@ -25,11 +25,11 @@ public class Puck extends Mover{
     public int goalCheck(MusicManager music) {
         if (!(touchingEdge(187, 848) == 'v' && getYPos()>266 && getYPos()<409)) return 0;
         if (getScalarVel()>25) {
-            music.play("SCC110-AirHockey-main\\bounce.wav");
+            music.play("SCC110-AirHockey-main/bounce.wav");
             return 0;
         }
 
-        music.play("SCC110-AirHockey-main\\applause.wav");
+        music.play("SCC110-AirHockey-main/applause.wav");
         if (getXPos()<328) return 1;
         else return 2;
     }
@@ -54,7 +54,7 @@ public class Puck extends Mover{
 
 
 
-        if (!(getYPos()>266 && getYPos()<409)) music.play("SCC110-AirHockey-main\\bounce.wav");
+        if (!(getYPos()>266 && getYPos()<409)) music.play("SCC110-AirHockey-main/bounce.wav");
 
         if (surface=='b') {
             temp[0]= -(temp[0]*0.97);
