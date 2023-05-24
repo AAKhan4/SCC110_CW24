@@ -242,6 +242,7 @@ public class Main {
         while (true) {
             System.out.print("");
             if (arena.spacePressed()) {
+                while (arena.spacePressed()) System.out.print("");
                 restartGame(arena, menu, border, score);
                 return true;
             }
