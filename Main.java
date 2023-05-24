@@ -1,7 +1,7 @@
 public class Main {
     public static void main(String[] args) {
-        int[] score = {0,0};
-        boolean restart = false;
+        int[] score = {0,0}; // array holding score for both players
+        boolean restart = false; //boolean representing if the game should restart from 0-0
 
         GameArena arena = new GameArena(1050, 600);
         MusicManager music = new MusicManager();
@@ -29,11 +29,13 @@ public class Main {
             music.play("SCC110-AirHockey-main/fanfare.wav");
             
             while (true) {
-                boolean stop = false;
+                boolean stop = false; //boolean check if game should stop
 
                 goalScore(player1, player2, puck, score, arena, scoreDisplay1, scoreDisplay2, music);
+                if (arena.letterPressed('q')) player1.setMass(15); //CHEAT CODE - MASS INCREASE
+                if (arena.letterPressed('l')) player2.setMass(15); //CHEAT CODE - MASS INCREASE
                 if (arena.escPressed()) stop = pauseGame(arena, menuBorder(), pauseMenu(), music, true);
-                if (score[0] == 7 || score[1] == 7 || stop) break;
+                if (score[0] == 7 || score[1] == 7 || stop) break; // check if game is over or quit by player(s)
                 
                 player1.moveKeyPress(puck, arena, arena.letterPressed('w'), arena.letterPressed('a'), arena.letterPressed('s'), arena.letterPressed('d'), 190, 518, music);
                 player2.moveKeyPress(puck, arena, arena.upPressed(), arena.leftPressed(), arena.downPressed(), arena.rightPressed(), 518, 845, music);

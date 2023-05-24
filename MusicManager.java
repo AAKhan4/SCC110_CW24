@@ -5,8 +5,8 @@ public class MusicManager {
 
     //Following instance variables define the MusicManager class
     private boolean mute; //boolean whether the sound should be muted
-    private Clip clip;
-    private AudioInputStream ais;
+    private Clip clip; //holds audio data for sound effect
+    private AudioInputStream ais; // input stream
 
     /**
      * Constructor - sets mute as false by default
