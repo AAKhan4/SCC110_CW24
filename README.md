@@ -33,15 +33,3 @@ SCC110-AirHockey-main
 + Ball.java
 + Text.java
 + Rectangle.java
-
-*Class files (.class files)
-+ Main.class
-+ Mover.class
-+ Mallet.class
-+ Puck.class
-+ MusicManager.class
-+ GameArena.class
-+ Line.class
-+ Ball.class
-+ Text.class
-+ Rectangle.class
