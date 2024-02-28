@@ -28,8 +28,8 @@ SCC110-AirHockey-main
 + Mallet.java
 + Puck.java
 + MusicManager.java
-+ GameArena.java
-+ Line.java
-+ Ball.java
-+ Text.java
-+ Rectangle.java
++ GameArena.java - Given by uni
++ Line.java - Given by uni
++ Ball.java - Given by uni
++ Text.java - Given by uni
++ Rectangle.java - Given by uni
