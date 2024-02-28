@@ -1,5 +1,5 @@
 # SCC110_CW24
-Summer Term Java coursework - Air Hockey
+University Summer Term Java Coursework - Air Hockey
 
 This project runs a two player game of air hockey.
 Each mallet can be moved in a user friendly manner (using WASD or arrow keys).
